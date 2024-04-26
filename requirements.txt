@@ -1,1 +1,2 @@
 duckdb==0.10.2
+overturemaps==0.4.0

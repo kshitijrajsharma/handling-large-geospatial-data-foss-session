@@ -14,6 +14,8 @@ extract_and_convert() {
     echo "Extracting $theme data..."
 
     duckdb -c """
+	INSTALL httpfs;
+	LOAD httpfs;
         INSTALL spatial;
         LOAD spatial;
         COPY (
@@ -32,8 +34,8 @@ extract_and_convert() {
 
 # Call the function for different themes
 echo "Starting data extraction and conversion..."
-extract_and_convert "admins" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(ST_AsWKB(b.geom)))" "admins.geoparquet"
-extract_and_convert "transportation" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(ST_AsWKB(b.geom)))" "transportation.geoparquet"
-extract_and_convert "buildings" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(ST_AsWKB(b.geom)))" "buildings.geoparquet"
-extract_and_convert "places" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(ST_AsWKB(b.geom)))" "places.geoparquet"
+extract_and_convert "admins" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(b.wkb_geometry))" "admins.geoparquet"
+extract_and_convert "transportation" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(b.wkb_geometry))" "transportation.geoparquet"
+extract_and_convert "buildings" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(b.wkb_geometry))" "buildings.geoparquet"
+extract_and_convert "places" "ST_Intersects(ST_GeomFromWKB(a.geometry), ST_GeomFromWKB(b.wkb_geometry))" "places.geoparquet"
 echo "Data extraction and conversion completed."
