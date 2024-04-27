@@ -45,3 +45,13 @@ bash ./extract-overture-data.sh "" "2024-04-16-beta.0" "admins"
 - Notebook example
 
 I have provided how we can use duckdb to run spatial queries over the downloaded parquet files in this [notebook](./overture_duckdb.ipynb) 
+
+
+## Output
+
+The script will generate the following files in the specified `output_path`:
+
+- `<theme>.geoparquet`: GeoParquet file containing the extracted data for the specified theme.
+- `<theme>.pmtiles`: PMTiles file converted from the GeoParquet file, suitable for rendering and visualization.
+
+Note that if you extract data for all themes, separate GeoParquet and PMTiles files will be generated for each theme.
