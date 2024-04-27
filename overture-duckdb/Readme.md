@@ -28,11 +28,10 @@ There are two ways to extract :
 - Install [gpq](https://github.com/planetlabs/gpq#installation) to convert parquet to geoparquet 
 - Install [gdal](https://gdal.org/programs/ogr2ogr.html) to convert geoparquet to tiles
 
-2. Using overturemap python cli and go-pmtiles 
+2. Using overturemap python cli and tippecanoe [Recommended]
 
-- Install [overturemap cli](https://github.com/OvertureMaps/overturemaps-py/tree/main) to download the dataset 
-- Install [gdal](https://gdal.org/programs/ogr2ogr.html) to convert geoparquet to mbtiles
-- Install [pmtiles](https://github.com/protomaps/go-pmtiles/releases) to convert mbtiles to pmtiles
+- Install [overturemap cli](https://github.com/OvertureMaps/overturemaps-py/tree/main) to download the dataset to geojsonseq
+- Install [tippecanoe](https://github.com/felt/tippecanoe) to convert geojsonseq to pmtiles
 
 
 ## Usage 
@@ -57,12 +56,20 @@ There are two ways to extract :
   ```
 
 
-2. Using overturepy cli 
+2. Using overturepy cli [Recommended]
+
+  - Extract all data
 
   ```bash 
   bash ./extract-python.sh 
   ```
 
+  - Example to download places data only 
+
+  ```bash
+  bash ./extract-python.sh "" "locality"
+  ```
+  
 ## Output
 
 The script will generate the following files in the specified `output_path`:

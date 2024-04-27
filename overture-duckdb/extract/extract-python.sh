@@ -8,30 +8,21 @@ OUTPUT_PATH=${3:-"."}
 # Function to download, validate, and convert data
 download_and_convert() {
     local theme=$1
-    local output_file="$OUTPUT_PATH/$theme.parquet"
+    local output_file="$OUTPUT_PATH/$theme.geojsonseq"
 
     # Download data
     if [ -n "$BBOX" ]; then
         echo "Downloading $theme data within the specified bounding box..."
-        overturemaps download -f geoparquet --type="$theme" --bbox "$BBOX" -o "$output_file"
+        overturemaps download -f geojsonseq --type="$theme" --bbox "$BBOX" -o "$output_file"
     else
         echo "Downloading $theme data for the entire dataset..."
-        overturemaps download -f geoparquet --type="$theme" -o "$output_file"
+        overturemaps download -f geojsonseq --type="$theme" -o "$output_file"
     fi
 
-    # Validate GeoParquet file
-    echo "Validating $theme GeoParquet file..."
-    gpq validate "$output_file"
-    if [ $? -ne 0 ]; then
-        echo "Error: GeoParquet validation failed for $theme. Skipping PMTiles conversion."
-        return
-    fi
+    # Convert to geojsonseq to PMTiles
 
-    # Convert to PMTiles
-    echo "Converting $theme data to MBtiles format..."
-    ogr2ogr -f 'mbtiles' "$OUTPUT_PATH/$theme.mbtiles" "$output_file" -progress
     echo "Converting $theme data to PMtiles format ..."
-    pmtiles convert "$OUTPUT_PATH/$theme.mbtiles" "$OUTPUT_PATH/$theme.pmtiles"
+    tippecanoe -o "$OUTPUT_PATH/$theme.pmtiles" "$OUTPUT_PATH/$theme.geojsonseq --force --read-parallel -l $theme -rg --drop-densest-as-needed"
     echo "Done processing $theme data."
 }
 
