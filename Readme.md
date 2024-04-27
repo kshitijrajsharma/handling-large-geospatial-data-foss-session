@@ -3,7 +3,7 @@
 This repo contains scripts , notebooks and instruction for the osgeonepal workshop 
 
 ## Duckdb and Overture
-Go [here](./overture-duckdb/Readme.md)
+Go [here](https://github.com/kshitijrajsharma/overture-to-tiles/blob/master/Readme.md)
 
 
 ## Postgresql and OSM
