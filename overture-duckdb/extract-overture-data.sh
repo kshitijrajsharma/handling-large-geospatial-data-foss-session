@@ -25,15 +25,14 @@ extract_and_convert() {
             FROM read_parquet('s3://overturemaps-us-west-2/release/$RELEASE_VERSION/theme=$theme/type=*//*', hive_partitioning=1)
             WHERE $filter_condition
         )
-        TO 'temp.parquet' (FORMAT 'parquet');
+        TO '$output_file.parquet' (FORMAT 'parquet');
     """
 
     echo "Converting $theme data to GeoParquet format..."
-    gpq convert temp.parquet "$OUTPUT_PATH/$output_file.geoparquet" --from=parquet --to=geoparquet
-    rm temp.parquet
+    gpq convert $output_file.parquet "$OUTPUT_PATH/$output_file-geo.parquet" --from=parquet --to=geoparquet
 
     echo "Converting $theme data to PMTiles format..."
-    ogr2ogr -f 'pmtiles' "$OUTPUT_PATH/$output_file.pmtiles" "$OUTPUT_PATH/$output_file.geoparquet" -progress
+    ogr2ogr -f 'pmtiles' "$OUTPUT_PATH/$output_file.pmtiles" "$OUTPUT_PATH/$output_file-geo.parquet" -progress
 
     echo "Done processing $theme data."
 }
