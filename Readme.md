@@ -15,6 +15,8 @@ Kshitij Raj Sharma
 
 ## Credits 
 
-https://github.com/OvertureMaps/data
-https://github.com/OvertureMaps/overturemaps-py
-https://github.com/tebben/overture-maps/tree/main
+- https://github.com/OvertureMaps/data
+
+- https://github.com/OvertureMaps/overturemaps-py
+
+- https://github.com/tebben/overture-maps/tree/main
