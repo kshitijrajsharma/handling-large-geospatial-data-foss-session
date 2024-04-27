@@ -20,32 +20,48 @@ s3://overturemaps-us-west-2/release/2024-04-16-beta.0/
 
 ## Installation 
 
+There are two ways to extract : 
+
+1. Using duckdb and gpq
+
 - Install [duckdb](https://duckdb.org/docs/installation/index) 
 - Install [gpq](https://github.com/planetlabs/gpq#installation) to convert parquet to geoparquet 
 - Install [gdal](https://gdal.org/programs/ogr2ogr.html) to convert geoparquet to tiles
 
+2. Using overturemap python cli and go-pmtiles 
+
+- Install [overturemap cli](https://github.com/OvertureMaps/overturemaps-py/tree/main) to download the dataset 
+- Install [gdal](https://gdal.org/programs/ogr2ogr.html) to convert geoparquet to mbtiles
+- Install [pmtiles](https://github.com/protomaps/go-pmtiles/releases) to convert mbtiles to pmtiles
+
+
 ## Usage 
 
-```bash
-bash ./extract-overture-data.sh [country_geojson] [release_version] [theme] [output_path]
-```
-- `country_geojson`: (Optional) Path to the country boundary GeoJSON file. If not provided, all data will be extracted without filtering.
-- `release_version`: (Optional) The current release version. Default is `"2024-04-16-beta.0"`.
-- `theme`: (Optional) The specific theme to extract and convert. If not provided or set to `"all"`, data for all themes will be extracted and converted. Supported themes are: `admins`, `transportation`, `buildings`, and `places`.
-- `output_path`: (Optional) The output path for the GeoParquet and PMTiles files. Default is the current directory (`.`).
 
-## Bash Example
+1. Using duckdb and gpq 
 
-- Extract and convert data for the `admins` theme without filtering:
+  ```bash
+  bash ./extract-duckdb.sh [country_geojson] [release_version] [theme] [output_path]
+  ```
+  - `country_geojson`: (Optional) Path to the country boundary GeoJSON file. If not provided, all data will be extracted without filtering.
+  - `release_version`: (Optional) The current release version. Default is `"2024-04-16-beta.0"`.
+  - `theme`: (Optional) The specific theme to extract and convert. If not provided or set to `"all"`, data for all themes will be extracted and converted. Supported themes are: `admins`, `transportation`, `buildings`, and `places`.
+  - `output_path`: (Optional) The output path for the GeoParquet and PMTiles files. Default is the current directory (`.`).
 
-```bash
-bash ./extract-overture-data.sh "" "2024-04-16-beta.0" "admins"
-```
+  ## Bash Example
 
-- Notebook example
+  - Extract and convert data for the `admins` theme without filtering:
 
-I have provided how we can use duckdb to run spatial queries over the downloaded parquet files in this [notebook](./overture_duckdb.ipynb) 
+  ```bash
+  bash ./extract-duckdb.sh "" "2024-04-16-beta.0" "admins"
+  ```
 
+
+2. Using overturepy cli 
+
+  ```bash 
+  bash ./extract-python.sh 
+  ```
 
 ## Output
 
@@ -55,3 +71,8 @@ The script will generate the following files in the specified `output_path`:
 - `<theme>.pmtiles`: PMTiles file converted from the GeoParquet file, suitable for rendering and visualization.
 
 Note that if you extract data for all themes, separate GeoParquet and PMTiles files will be generated for each theme.
+
+
+### Notebook example
+
+I have provided how we can use duckdb to run spatial queries over the downloaded parquet files in this [notebook](./overture_duckdb.ipynb) 
